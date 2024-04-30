@@ -1,0 +1,23 @@
+version: '3.9'
+
+name: ${NAME:- video-title-remover }
+
+services:
+  app:
+    image: video-subtitle-remover:1.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:- 8090 }:8090" # 将容器的8000端口映射到宿主机的8000端口
+    environment:
+      - pools=${POOLS:- 4}
+    volumes:
+      - ${DATA_DIR:- ./data}:/workspace/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['${DEVICE:-0}']
+              capabilities: [ gpu ]

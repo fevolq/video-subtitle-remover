@@ -509,7 +509,7 @@ class SubtitleDetect:
 
 
 class SubtitleRemover:
-    def __init__(self, vd_path, sub_area=None, gui_mode=False):
+    def __init__(self, vd_path, sub_area=None, gui_mode=False, output_path=''):
         importlib.reload(config)
         # 线程锁
         self.lock = threading.RLock()
@@ -551,6 +551,7 @@ class SubtitleRemover:
             if not os.path.exists(pic_dir):
                 os.makedirs(pic_dir)
             self.video_out_name = os.path.join(pic_dir, f'{self.vd_name}{self.ext}')
+        self.video_out_name = output_path or self.video_out_name
         if torch.cuda.is_available():
             print('use GPU for acceleration')
         # 总处理进度
