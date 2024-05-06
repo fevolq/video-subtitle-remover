@@ -12,6 +12,9 @@ services:
       - "${PORT:- 8090 }:8090" # 将容器的8000端口映射到宿主机的8000端口
     environment:
       - pools=${POOLS:- 4}
+      - MODE=${MODE:- sttn}
+      - STTN_NEIGHBOR_STRIDE=${STTN_NEIGHBOR_STRIDE:- 10}
+      - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:- 20}
     volumes:
       - ${DATA_DIR:- ./data}:/workspace/data
     deploy:
