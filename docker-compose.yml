@@ -13,8 +13,8 @@ services:
     environment:
       - pools=${POOLS:- 4}
       - MODE=${MODE:- sttn}
-      - STTN_NEIGHBOR_STRIDE=${STTN_NEIGHBOR_STRIDE:- 10}
-      - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:- 20}
+      - STTN_NEIGHBOR_STRIDE=${STTN_NEIGHBOR_STRIDE:- 5}
+      - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:- 10}
     volumes:
       - ${DATA_DIR:- ./data}:/workspace/data
     deploy:

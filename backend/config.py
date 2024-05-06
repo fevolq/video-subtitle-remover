@@ -79,7 +79,7 @@ MODE = os.getenv('MODE', 'sttn')
 if MODE.upper() in InpaintMode.__members__:
     MODE = InpaintMode[MODE.upper()]
 else:
-    MODE = InpaintMode.LAMA
+    MODE = InpaintMode.STTN
 # 【设置像素点偏差】
 # 用于判断是不是非字幕区域(一般认为字幕文本框的长度是要大于宽度的，如果字幕框的高大于宽，且大于的幅度超过指定像素点大小，则认为是错误检测)
 THRESHOLD_HEIGHT_WIDTH_DIFFERENCE = 10
@@ -114,9 +114,9 @@ PIXEL_TOLERANCE_X = 20  # 允许检测框横向偏差的像素点数
 """
 STTN_SKIP_DETECTION = True
 # 参考帧步长
-STTN_NEIGHBOR_STRIDE = int(os.getenv('STTN_NEIGHBOR_STRIDE', 10))
+STTN_NEIGHBOR_STRIDE = int(os.getenv('STTN_NEIGHBOR_STRIDE', 5))
 # 参考帧长度（数量）
-STTN_REFERENCE_LENGTH = int(os.getenv('STTN_REFERENCE_LENGTH', 20))
+STTN_REFERENCE_LENGTH = int(os.getenv('STTN_REFERENCE_LENGTH', 10))
 # 设置STTN算法最大同时处理的帧数量
 STTN_MAX_LOAD_NUM = 50
 if STTN_MAX_LOAD_NUM < STTN_REFERENCE_LENGTH * STTN_NEIGHBOR_STRIDE:
