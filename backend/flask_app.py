@@ -20,37 +20,36 @@ def index():
 def submit():
     if 'file' not in request.files:
         abort(400, description="No file part")
+
     file = request.files['file']
-    if file.filename == '':
+    if not file or file.filename == '':
         abort(400, description="No selected file")
-    if file:
-        filename = file.filename
-        area = request.args.get('area')
-        print(f'submit接受请求：{area}')
-        try:
-            if area:
-                area = [float(item.strip()) for item in area.split(',')]
-                if len(area) != 4:
-                    abort(400, description="Error area")
-            else:
-                area = None
 
-            worker = process.Worker(filename, file.stream)
-            worker.set_sd(sub_area=tuple(area) if area else None)
-            success = process.submit(worker)
+    filename = file.filename
+    area = request.args.get('area')
+    print(f'submit接收请求：{area}')
 
-            if success:
-                return jsonify(code=200, data={'process_id': worker.process_id}), 200
-            else:
-                return jsonify(code=500, data={'process_id': worker.process_id}), 500
-        except Exception as e:
-            return jsonify(code=500, data={'error': str(e)}), 500
+    if area:
+        area = [int(float(item.strip())) for item in area.split(',')]
+        if len(area) != 4:
+            abort(400, description="Error area")
+    else:
+        area = None
+
+    worker = process.Worker(filename, file.stream)
+    worker.set_sd(sub_area=tuple(area) if area else None)
+    success = process.submit(worker)
+
+    if success:
+        return jsonify(code=200, data={'process_id': worker.process_id}), 200
+    else:
+        return jsonify(code=500, data={'process_id': worker.process_id}), 500
 
 
 @app.route('/state', methods=['GET'])
 def get_state():
     process_id = request.args.get('process_id')
-    print(f'state接受请求：{process_id}')
+    print(f'state接收请求：{process_id}')
     result = process.get_worker_state(process_id)
     if result is None:
         abort(404, description="Process not found")
@@ -60,7 +59,7 @@ def get_state():
 @app.route('/download', methods=['GET'])
 def download():
     process_id = request.args.get('process_id')
-    print(f'download接受请求：{process_id}')
+    print(f'download接收请求：{process_id}')
     worker = process.get_worker(process_id)
     if not worker:
         abort(404, description="Process not found")
