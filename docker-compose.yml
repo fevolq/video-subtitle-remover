@@ -17,6 +17,7 @@ services:
       - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:- 10}
     volumes:
       - ${DATA_DIR:- ./data}:/app/data
+    restart: on-failure
     deploy:
       resources:
         reservations:

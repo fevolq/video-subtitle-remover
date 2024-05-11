@@ -10,8 +10,7 @@ def hash256(value: str) -> str:
 def mkdir(path):
     """创建文件夹"""
     path = os.path.realpath(path)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def get_current_date():
