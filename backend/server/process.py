@@ -115,6 +115,8 @@ def submit(worker: Worker):
     success = thread_pool.submit(worker.run)
     if success:
         workers[worker.process_id] = worker
+    else:
+        worker.release()
     return success
 
 

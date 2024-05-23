@@ -11,7 +11,7 @@ from backend.server import process
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/connect', methods=['GET'])
 def index():
     return 'Hello World'
 
