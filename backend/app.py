@@ -14,7 +14,7 @@ from backend.server import process
 app = FastAPI()
 
 
-@app.get('/')
+@app.get('/connect')
 async def index():
     return 'Hello World'
 

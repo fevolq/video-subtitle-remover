@@ -5,7 +5,7 @@ ENV TZ=Asia/Shanghai
 
 # 安装您的应用程序需要的其他依赖项
 RUN apt-get update && apt-get install -y \
-    python3-pip build-essential \
+    python3-pip build-essential curl \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装ffmpeg

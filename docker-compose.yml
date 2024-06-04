@@ -1,6 +1,6 @@
 version: '3.9'
 
-name: ${NAME:- video-title-remover }
+name: ${NAME:-video-title-remover}
 
 services:
   app:
@@ -9,15 +9,15 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${PORT:- 8090 }:8090" # 将容器的8000端口映射到宿主机的8000端口
+      - "${PORT:-8090}:8090"
     environment:
-      - pools=${POOLS:- 4}
-      - MODE=${MODE:- sttn}
-      - STTN_NEIGHBOR_STRIDE=${STTN_NEIGHBOR_STRIDE:- 5}
-      - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:- 10}
+      - pools=${POOLS:-4}
+      - MODE=${MODE:-sttn}
+      - STTN_NEIGHBOR_STRIDE=${STTN_NEIGHBOR_STRIDE:-5}
+      - STTN_REFERENCE_LENGTH=${STTN_REFERENCE_LENGTH:-10}
     volumes:
-      - ${DATA_DIR:- ./data}:/app/data
-    restart: on-failure
+      - ${DATA_DIR:-./data}:/app/data
+    restart: always
     deploy:
       resources:
         reservations:
