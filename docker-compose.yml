@@ -4,7 +4,7 @@ name: ${NAME:-video-title-remover}
 
 services:
   app:
-    image: video-subtitle-remover:1.1.0
+    image: video-subtitle-remover:1.2.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,6 +18,12 @@ services:
     volumes:
       - ${DATA_DIR:-./data}:/app/data
     restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8090/connect || exit 1" ]
+      interval: 30s
+      timeout: 5s
+      start_period: 300s
+      retries: 3
     deploy:
       resources:
         reservations:
