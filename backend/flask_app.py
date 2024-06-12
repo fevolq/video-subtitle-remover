@@ -1,7 +1,8 @@
 import os
+from multiprocessing import Value, Lock
+import sys
 
 from flask import Flask, request, jsonify, abort, send_file
-import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -10,10 +11,28 @@ from backend.server import process
 
 app = Flask(__name__)
 
+# 初始化一个可以在进程间共享的布尔值
+NORMAL_CUDA = Value('b', True)
+# 初始化一个锁，用于保护对NORMAL_CUDA的并发访问
+cuda_lock = Lock()
+
 
 @app.route('/connect', methods=['GET'])
 def index():
     return 'Hello World'
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    return str(NORMAL_CUDA.value)
+
+
+@app.errorhandler(RuntimeError)
+def handle_cuda_error(e):
+    with cuda_lock:
+        if str(e).find('CUDA') > -1:
+            NORMAL_CUDA.value = False
+    raise e
 
 
 @app.route('/submit', methods=['POST'])

@@ -19,11 +19,11 @@ services:
       - ${DATA_DIR:-./data}:/app/data
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8090/connect || exit 1" ]
-      interval: 30s
+      test: [ "CMD-SHELL", "curl -f http://localhost:8090/health | grep -q '1' || exit 1" ]
+      interval: 10s
       timeout: 5s
       start_period: 300s
-      retries: 3
+      retries: 1
     deploy:
       resources:
         reservations:
